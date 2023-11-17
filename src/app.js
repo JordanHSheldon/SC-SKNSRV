@@ -12,7 +12,7 @@ const corsOptions ={
 app.use(cors(corsOptions));
 
 // Handling get request
-app.get('/', (req, res) => {
+app.get('/', (res) => {
     res.send('hello world')
   })
  
