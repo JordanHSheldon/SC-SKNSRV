@@ -20,19 +20,15 @@ jobs:
         working-directory: .
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2
-
-      - run: 'echo "${{secrets.AWS_REGION}}" > key'
-        shell: bash
-      - run: 'echo "${{secrets.AWS_ROLE}}" > key'
-        shell: bash
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v3
+
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GitHubActions-OIDC-TERRAFORM
+          role-session-name: thisisntfuckingworking
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
