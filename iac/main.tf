@@ -1,19 +1,29 @@
-variable "region" {
-    type = string
-    default = "us-east-1"
+provider "azurerm" {
+  features {}
 }
 
-variable "vpc_cidr_range" {
-    type = string
-    default = "10.0.0.0/16"
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "West Europe"
 }
 
-variable "public_subnets" {
-    type = list(string)
-    default = ["10.0.0.0/24","10.0.1.0/24"]
+resource "azurerm_storage_account" "example" {
+  name                     = "examplestoracc"
+  resource_group_name      = azurerm_resource_group.example.name
+  location                 = azurerm_resource_group.example.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
 
-variable "database_subnets" {
-    type = list(string)
-    default = ["10.0.8.0/24","10.0.9.0/24"]
+resource "azurerm_storage_container" "example" {
+  name                  = "content"
+  storage_account_name  = azurerm_storage_account.example.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "example" {
+  name                   = "my-awesome-content.zip"
+  storage_account_name   = azurerm_storage_account.example.name
+  storage_container_name = azurerm_storage_container.example.name
+  type                   = "Block"
 }
